@@ -17,8 +17,4 @@ public class AIMS {
     public static void main(String[] args) {
        new LoginUI().setVisible(true);
     }
-    
-    //Update icon by Icons8 <a target="_blank" href="https://icons8.com/icon/35635/available-updates">Available Updates</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-    //Male User icon by Icons8 <a target="_blank" href="https://icons8.com/icon/AjTPlMclWxjF/male-user">Male User</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
-    //Search icon by Icons8 <a target="_blank" href="https://icons8.com/icon/Y6AAeSVIcpWt/search">Search</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 }
