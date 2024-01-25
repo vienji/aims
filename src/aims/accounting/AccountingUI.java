@@ -16,6 +16,7 @@ import aims.LoginUI;
 import aims.accounting.journal.ViewEntry;
 import aims.admin.AdminUI;
 import aims.classes.EntryAccount;
+import aims.classes.IncomeStatementAccount;
 import aims.classes.LedgerAccount;
 import aims.images.ImageManipulator;
 import aims.inventory.InventoryUI;
@@ -26,6 +27,14 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ImageIcon;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -536,6 +545,7 @@ public class AccountingUI extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         incomeStatementTable = new javax.swing.JTable();
+        printIncomeStatement = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         refreshWorkSheet = new javax.swing.JLabel();
         accounts = new javax.swing.JPanel();
@@ -1323,20 +1333,33 @@ public class AccountingUI extends javax.swing.JFrame {
         ));
         jScrollPane6.setViewportView(incomeStatementTable);
 
+        printIncomeStatement.setText("Print");
+        printIncomeStatement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printIncomeStatementActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 966, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(printIncomeStatement)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(printIncomeStatement)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -2262,6 +2285,29 @@ public class AccountingUI extends javax.swing.JFrame {
          showAccountEntries((String) ledgerAccountsComBox.getSelectedItem(), refNum.getText());
     }//GEN-LAST:event_ledgerAccountsComBoxActionPerformed
 
+    private void printIncomeStatementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printIncomeStatementActionPerformed
+        try{
+           String path = "C:\\Users\\userpc\\Desktop\\Cabinet\\2223-2NDSEM\\SIA2\\Project\\AIMS\\src\\aims\\reports\\IncomeStatementReport.jrxml";
+           JasperDesign jd = JRXmlLoader.load(path);
+           JasperReport jr = JasperCompileManager.compileReport(jd);
+           
+           ArrayList<IncomeStatementAccount> list = new ArrayList<>();
+           int rows = incomeStatementTable.getRowCount();
+           
+           for(int i = 0; i < rows; i++){             
+               IncomeStatementAccount account = new IncomeStatementAccount(String.valueOf(incomeStatementTable.getValueAt(i, 0)), String.valueOf(incomeStatementTable.getValueAt(i, 1) + " "));
+               list.add(account);
+           }
+                   
+           JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
+           JasperPrint jp = JasperFillManager.fillReport(jr, null, dataSource);
+           JasperViewer.viewReport(jp, false);
+       }catch(Exception e){
+           System.out.println(e.getMessage());
+           e.printStackTrace();
+       }
+    }//GEN-LAST:event_printIncomeStatementActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2366,6 +2412,7 @@ public class AccountingUI extends javax.swing.JFrame {
     public javax.swing.JLabel logoutL;
     private javax.swing.JPanel logoutP;
     private javax.swing.JButton nextJournal;
+    private javax.swing.JButton printIncomeStatement;
     private javax.swing.JLabel refNum;
     private javax.swing.JLabel refreshAccountsList;
     private javax.swing.JLabel refreshGroupAccountsList;

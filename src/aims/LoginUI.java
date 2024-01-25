@@ -39,7 +39,10 @@ public class LoginUI extends javax.swing.JFrame {
         
         if(connection == null){
             icon.setIcons("src\\aims\\images\\disconnected.png", networkStatus);
-            
+            username.setEnabled(false);
+            password.setEnabled(false);
+            username.setText("");
+            password.setText("");
         } else {
             icon.setIcons("src\\aims\\images\\connected.png", networkStatus);
         }
@@ -252,10 +255,6 @@ public class LoginUI extends javax.swing.JFrame {
         Connection connection = Driver.getConnection();
         if(connection != null){
            String[] credentials = new UserDBController().getCredentials(username.getText(), password.getText(), (String) accessLevelComBox.getSelectedItem());
-         
-            for(String a: credentials){
-                System.out.println(a);
-            }
 
             if(credentials[0] != null && credentials[1] != null && credentials[2] != null && credentials[3] != null){
 
@@ -292,10 +291,9 @@ public class LoginUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "Incorrect Credentials!");
             } 
         } else {
+            ImageManipulator icon = new ImageManipulator();
             JOptionPane.showMessageDialog(rootPane, "You're not connected to the server!");
-            networkStatus.setText("Server is down!");
-            networkStatus.setBackground(new Color(204, 0, 0));
-            networkStatus.setForeground(new Color(255, 255, 255));
+            icon.setIcons("src\\aims\\images\\disconnected.png", networkStatus);
             username.setEnabled(false);
             password.setEnabled(false);
             username.setText("");
@@ -306,35 +304,56 @@ public class LoginUI extends javax.swing.JFrame {
     private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
 
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            String[] credentials = new UserDBController().getCredentials(username.getText(), password.getText(), (String) accessLevelComBox.getSelectedItem());
-            if(credentials[0] != null && credentials[1] != null && credentials[2] != null && credentials[3] != null){
-                String level = credentials[3];
+            Connection connection = Driver.getConnection();
+            if(connection != null){
+               String[] credentials = new UserDBController().getCredentials(username.getText(), password.getText(), (String) accessLevelComBox.getSelectedItem());
 
-                switch(level){
-                    case "admin":
-                        dispose();
-                        AdminUI adminUI = new AdminUI();
-                        adminUI.usernameDisplay.setText(credentials[0]);
-                        adminUI.setVisible(true);                    
-                        break;
-
-                    case "cashier":
-                        dispose();
-                        AccountingUI accountingUI = new AccountingUI();
-                        accountingUI.usernameDisplay.setText(credentials[0]);
-                        accountingUI.setVisible(true);
-                        break;
-
-                    case "staff":
-                        dispose();
-                        InventoryUI inventoryUI = new InventoryUI();
-                        inventoryUI.usernameDisplay.setText(credentials[0]);
-                        inventoryUI.setVisible(true);
-                        break;
+                for(String a: credentials){
+                    System.out.println(a);
                 }
 
+                if(credentials[0] != null && credentials[1] != null && credentials[2] != null && credentials[3] != null){
+
+                    if(credentials[4].equals("active")){
+                       String level = credentials[3];
+
+                       switch(level){
+                           case "admin":
+                               dispose();
+                               AdminUI adminUI = new AdminUI();
+                               adminUI.usernameDisplay.setText(credentials[0]);
+                               adminUI.setVisible(true);                    
+                               break;
+
+                           case "cashier":      
+                               AccountingUI accountingUI = new AccountingUI();
+                               accountingUI.usernameDisplay.setText(credentials[0]);
+                               accountingUI.setVisible(true);
+                               dispose();
+                               break;
+
+                           case "staff": 
+                               InventoryUI inventoryUI = new InventoryUI();
+                               inventoryUI.usernameDisplay.setText(credentials[0]);
+                               inventoryUI.setVisible(true);
+                               dispose();
+                               break;
+                       }
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "User is Inactive");
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Incorrect Credentials!");
+                } 
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Incorrect Credentials!");
+                ImageManipulator icon = new ImageManipulator();
+                JOptionPane.showMessageDialog(rootPane, "You're not connected to the server!");
+                icon.setIcons("src\\aims\\images\\disconnected.png", networkStatus);
+                username.setEnabled(false);
+                password.setEnabled(false);
+                username.setText("");
+                password.setText("");
             }
         }
     }//GEN-LAST:event_passwordKeyPressed
@@ -362,9 +381,12 @@ public class LoginUI extends javax.swing.JFrame {
         
         if(connection == null){
             icon.setIcons("src\\aims\\images\\disconnected.png", networkStatus);
-            
+            username.setEnabled(false);
+            password.setEnabled(false);
         } else {
             icon.setIcons("src\\aims\\images\\connected.png", networkStatus);
+            username.setEnabled(true);
+            password.setEnabled(true);
         }
     }//GEN-LAST:event_refreshMouseClicked
 

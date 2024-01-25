@@ -10,18 +10,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Vienji
  */
 public class Driver {
-    private static String USER;
-    private static String PASSWORD;
-    private static String SERVER;
-    private static String PORT;
-    private static String DATABASE;
+    private static String USER = "";
+    private static String PASSWORD = "";
+    private static String SERVER = "";
+    private static String PORT = "";
+    private static String DATABASE = "";
     
+    public static void main(String... args){
+        Driver.getConnection();
+    }
     public static Connection getConnection(){   
         try(InputStream input = new FileInputStream("src\\aims\\path\\to\\config.properties")){
             Properties network = new Properties();
@@ -33,7 +37,7 @@ public class Driver {
             SERVER = network.getProperty("server");
             PORT = network.getProperty("port");
             DATABASE = network.getProperty("database");
-                   
+            
         } catch (IOException io){
             io.printStackTrace();
         }
@@ -46,6 +50,7 @@ public class Driver {
         } 
         catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage());
             return null; }             
     }    
 }

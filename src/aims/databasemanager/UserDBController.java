@@ -52,7 +52,7 @@ public class UserDBController {
                  user.setStatus(result.getString(col6));
                  
                  userList.add(user);
-             } 
+             }
          }
          catch (SQLException e){}
          
@@ -76,7 +76,7 @@ public class UserDBController {
                  user.setStatus(col6);
                  
                  userList.add(user);
-             } 
+             }
          }
          catch (SQLException e){}
          
@@ -100,7 +100,7 @@ public class UserDBController {
                  user.setStatus(col6);
                  
                  userList.add(user);
-             } 
+             }
          }
          catch (SQLException e){}
          

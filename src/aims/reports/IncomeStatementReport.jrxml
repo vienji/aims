@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_Letter" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d11570ff-7075-4dd5-964d-bf3d29d08116">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="account" class="java.lang.String"/>
+	<field name="amount" class="java.lang.String"/>
+	<title>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="10" width="212" height="66" uuid="72331985-ae8d-4b39-81ab-c5b6e9f0fafb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial Black" size="19"/>
+				</textElement>
+				<text><![CDATA[JAR Creatives]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="60" width="212" height="30" uuid="1caa7ff2-2376-4f24-b24a-7bf88169a775"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Income Statement]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="24">
+			<textField>
+				<reportElement x="80" y="3" width="100" height="18" uuid="206d2fd6-e0c6-49d4-a9c5-2f72b0cd8de4"/>
+				<textElement>
+					<paragraph lineSpacingSize="0.2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{account}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="5" width="100" height="19" uuid="f75f0693-50c5-48a8-8aab-cb3a86a6a9bf"/>
+				<textElement>
+					<paragraph lineSpacingSize="0.5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="60" splitType="Stretch">
+			<textField>
+				<reportElement x="470" y="30" width="100" height="30" uuid="b5a7821e-0daf-422c-b55a-e2d5bb47df5c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -655,7 +655,7 @@ public class SellItem extends javax.swing.JFrame {
                 entry.add(e2);
 
                 new AccountingDBController().addJournalEntry(sqlDate,
-                    purpose.getText(), vendor.getText(), entry, String.valueOf(new AccountingDBController().getCurrentJournal()));
+                    purpose.getText(), vendor.getText(), entry, String.valueOf(new AccountingDBController().getSetCurrentJournal()));
 
                 JOptionPane.showMessageDialog(rootPane, "Items were sold and the transaction was added into the accounting journal.");
                 dispose();

@@ -14,6 +14,7 @@ import aims.LoginUI;
 import aims.admin.settings.Settings;
 import aims.admin.usersmanager.UpdateUser;
 import aims.classes.Account;
+import aims.classes.IncomeStatementAccount;
 import aims.classes.Item;
 import aims.databasemanager.AccountingDBController;
 import aims.databasemanager.InventoryDBController;
@@ -26,6 +27,14 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 
 /**
@@ -332,6 +341,7 @@ public class AdminUI extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         liabilities = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        print = new javax.swing.JButton();
         inventoryReports = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -872,20 +882,29 @@ public class AdminUI extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("Income Statement");
 
+        print.setText("Print");
+        print.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout financialReportsLayout = new javax.swing.GroupLayout(financialReports);
         financialReports.setLayout(financialReportsLayout);
         financialReportsLayout.setHorizontalGroup(
             financialReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, financialReportsLayout.createSequentialGroup()
-                .addContainerGap(157, Short.MAX_VALUE)
+                .addContainerGap(162, Short.MAX_VALUE)
                 .addGroup(financialReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, financialReportsLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(151, 151, 151))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, financialReportsLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(395, 395, 395))))
+                        .addGap(395, 395, 395))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, financialReportsLayout.createSequentialGroup()
+                        .addGroup(financialReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(print)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(151, 151, 151))))
         );
         financialReportsLayout.setVerticalGroup(
             financialReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -895,8 +914,10 @@ public class AdminUI extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(print)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         adminMenuPane.addTab("Financial Reports", financialReports);
@@ -1434,6 +1455,29 @@ public class AdminUI extends javax.swing.JFrame {
         exitP.setBackground(new Color(102, 102, 102));
     }//GEN-LAST:event_exitPMouseExited
 
+    private void printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printActionPerformed
+        try{
+           String path = "C:\\Users\\userpc\\Desktop\\Cabinet\\2223-2NDSEM\\SIA2\\Project\\AIMS\\src\\aims\\reports\\IncomeStatementReport.jrxml";
+           JasperDesign jd = JRXmlLoader.load(path);
+           JasperReport jr = JasperCompileManager.compileReport(jd);
+           
+           ArrayList<IncomeStatementAccount> list = new ArrayList<>();
+           int rows = incomeStatement.getRowCount();
+           
+           for(int i = 0; i < rows; i++){             
+               IncomeStatementAccount account = new IncomeStatementAccount(String.valueOf(incomeStatement.getValueAt(i, 0)), String.valueOf(incomeStatement.getValueAt(i, 1) + " "));
+               list.add(account);
+           }
+                   
+           JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
+           JasperPrint jp = JasperFillManager.fillReport(jr, null, dataSource);
+           JasperViewer.viewReport(jp, false);
+       }catch(Exception e){
+           System.out.println(e.getMessage());
+           e.printStackTrace();
+       }
+    }//GEN-LAST:event_printActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1523,6 +1567,7 @@ public class AdminUI extends javax.swing.JFrame {
     private javax.swing.JPanel manageAccountsPanel;
     private javax.swing.JLabel ordersToReceive;
     private javax.swing.JTable outOfStockList;
+    private javax.swing.JButton print;
     private javax.swing.JLabel refreshList;
     private javax.swing.JLabel sales;
     private javax.swing.JLabel searchUsersAccount;
